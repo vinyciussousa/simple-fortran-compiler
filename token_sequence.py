@@ -16,5 +16,5 @@ class token_sequence:
         if self.peek() == token:
             self.advance()
         else:
-            print('Expected Token:',token, '/ Token Found:',self.peek())
+            print('Syntax error: Expected Token',token, '/ Token Found',self.peek())
             exit(0)
