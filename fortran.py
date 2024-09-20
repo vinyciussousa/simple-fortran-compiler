@@ -204,15 +204,15 @@ def RELATIONAL_OPERATOR(ts:token_sequence,p:predict_algorithm)->None:
         return 'LESS'
     elif ts.peek() in p.predict(89):
         ts.match('>=')
-        #Se a > b, CMP coloca 1, então 1 < 1 é falso (0)
-        #Se a = b, CMP coloca 0, então 0 < 1 é verdadeiro (1)
-        #Se a < b, CMP coloca -1, então -1 < 1 é verdadeiro (1)
+        #Se a < b, ISNEG coloca 1, NOT (0)
+        #Se a = b, ISNEG coloca 0, NOT (1)
+        #Se a > b, ISNEG coloca 0, NOT (1)
         return 'SUB\nISNEG\nNOT'
     elif ts.peek() in p.predict(90):
         ts.match('<=')
-        #Se a > b, CMP coloca 1, então 1 > -1 é verdadeiro (1)
-        #Se a = b, CMP coloca 0, então 0 > -1 é verdadeiro (1)
-        #Se a < b, CMP coloca -1, então -1 > -1 é falso (0)
+        #Se a > b, ISPOS coloca 1, NOT (0)
+        #Se a = b, ISPOS coloca 0, NOT (1)
+        #Se a < b, ISPOS coloca 0, NOT (1)
         return 'SUB\nISPOS\nNOT'
     else:
         print('Syntax error at',get_func_name())
@@ -424,7 +424,7 @@ def ASSIGNMENT(ts: token_sequence, p: predict_algorithm) -> None:
             raise TypeError(f'Incompatible type: attempt to assign {expr_type} to variable {var} of type {var_type}')
         value = var_manager.get_variable(var)
         write_to_file(f'STOREABS {value}')
-        var_manager.set_variable(var, value, var_type)  # Atualizando o valor
+        var_manager.set_variable(var, value, var_type)
     else:
         print('Syntax error at', get_func_name())
         exit(0)
