@@ -7,12 +7,12 @@ class var_control:
 
     def get_variable(self, name):
         if name not in self._variables:
-            raise ValueError(f'Undenfined: {name}')
+            raise ValueError(f'Undefined: {name}')
         return self._variables.get(name, {}).get('value')
 
     def get_variable_type(self, name):
         if name not in self._variables:
-            raise ValueError(f'Undenfined: {name}')
+            raise ValueError(f'Undefined: {name}')
         return self._variables.get(name, {}).get('type')
 
     def delete_variable(self, name):
